@@ -1,6 +1,5 @@
 
 import NavBar from '@/components/NavBar.js'
-import clientPromise from '@/lib/mongodb';
 import { useState, useEffect } from 'react';
 import useSWR from 'swr';
 import styled from 'styled-components'
@@ -24,6 +23,36 @@ margin-top: 4rem;
 
 `
 
+// Version 1
+export async function getServerSideProps() { // Grab the user's profile image using server side props
+  const { MongoClient } = require('mongodb');
+  const uri = process.env.MONGODB_URI;
+
+
+  const options = {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+  }
+  
+  let client;
+  let clientPromise;
+  
+  client = new MongoClient(uri, options)
+
+  clientPromise = client.connect()
+  const db = client.db("nextjs-demo")
+  const users = db.collection("users");
+  const doc = await users.findOne({ name: 'fun' });
+
+  // Can run a DB Query
+  return {
+    props: {
+      header: "Are you feeling lucky?",
+      profileBase64: doc.base64
+    }
+  }
+}
+/* Version 2 
 export async function getServerSideProps() { // Grab the user's profile image using server side props
   const client = await clientPromise; // Fetch Mongo Client & query
   const db = client.db("nextjs-demo")
@@ -37,6 +66,7 @@ export async function getServerSideProps() { // Grab the user's profile image us
     }
   }
 }
+*/
 
 export default function Home({ header, profileBase64 }) {
   const [roll, setRoll] = useState(0);
