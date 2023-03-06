@@ -15,11 +15,13 @@ const StyledButton = styled.button`
 `
 
 const MainContent = styled.div`
+color: white;
 display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
 margin-top: 4rem;
+
 `
 
 export async function getServerSideProps() { // Grab the user's profile image using server side props

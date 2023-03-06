@@ -13,11 +13,11 @@ export async function getStaticProps() {
 }
 
 export default function Static({html, seo}) {
-    return <Fragment>
+    return <div style={{color: 'white'}}>
         {html}
         <br></br>
         <br></br>
         <br></br>
         {seo}
-    </Fragment>
+    </div>
 }
